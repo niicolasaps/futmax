@@ -2,22 +2,6 @@ package src;
 
 import java.util.Scanner;
 
-/*
- * Problema:
- * 
- * "Dado um array de skills de jogadores de futebol, determinar o 
- * maior time balanceado possível em que a diferença de skills
- * entre quaisquer pares de jogadores no mesmo time não seja
- * maior que 5."
- * 
- * Exemplos de input/output: tests/
- * 
- * Não é permitido o uso da biblioteca Arrays.
- * É permitido o uso de códigos próprios
- * desenvolvidas em aulas anteriores.
- * 
- * Ver especificação em pdf para mais detalhes.
-*/
 public class Futebol {
     public static void main(String[] args) {
         Scanner leitor = new Scanner(System.in);
@@ -39,7 +23,35 @@ public class Futebol {
     }
 
     private static int maiorTimePossivel(int[] skills) {
-        // Implementar a lógica para calcular o maior time possível
-        throw new UnsupportedOperationException("Não implementado");
+        int n = skills.length;
+
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < n; j++) {
+                if (skills[j] < skills[minIndex]) {
+                    minIndex = j;
+                }
+            }
+
+            int temp = skills[i];
+            skills[i] = skills[minIndex];
+            skills[minIndex] = temp;
+        }
+
+        int maxTamanho = 0;
+        int esquerda = 0;
+
+        for (int direita = 0; direita < n; direita++) {
+            while (skills[direita] - skills[esquerda] > 5) {
+                esquerda++;
+            }
+            int tamanhoAtual = direita - esquerda + 1;
+            if (tamanhoAtual > maxTamanho) {
+                maxTamanho = tamanhoAtual;
+            }
+        }
+
+        return maxTamanho;
     }
 }
